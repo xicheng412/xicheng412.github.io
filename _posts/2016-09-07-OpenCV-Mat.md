@@ -9,9 +9,6 @@ tags: OpenCV Mat
 * content
 {:toc}
 
-
-
-# Mat - 基本的图像容器
 Mat - The Basic Image Container
 
 原始地址：<http://docs.opencv.org/3.0-beta/doc/tutorials/core/mat_the_basic_image_container/mat_the_basic_image_container.html>
@@ -19,6 +16,9 @@ Mat - The Basic Image Container
 ## 翻译前言：
 
 自己学习 OpenCV 的时候，对很多概念不是太清楚。准备趁着翻译的的机会继续学习，同时留下一些记录。现在没有看到很多的关于 OpenCV 3 版本以上的学习资料，大部分都还非常老。翻译的时候没有逐字翻译，一些地方自己读了以后主要留下干货和主要意思，感觉比较啰嗦的地方就跳过了。
+
+
+
 
 ## 目标
 

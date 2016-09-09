@@ -9,9 +9,10 @@ tags: CPP
 * content
 {:toc}
 
+解决之前不太清除的细节问题，同时测试一下blog的代码显示。所以写了一个关于 main() 的参数问题。
 
 
-# C++ main(int argc,char* argv[]) 详解 
+
 
 ## 简介
 argv 和 argc 是命令行传递给 C 和 C++ 中 main() 函数的参数
