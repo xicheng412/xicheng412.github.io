@@ -9,6 +9,8 @@ tags: CPP
 * content
 {:toc}
 
+
+
 # C++ main(int argc,char* argv[]) 详解 
 
 ## 简介
@@ -19,9 +21,9 @@ argv 和 argc 是命令行传递给 C 和 C++ 中 main() 函数的参数
 
 在main()中，也可以写成其他的名字例如
 
-'''c
+```c
 int main(int num_args, char** arg_strings) 
-'''
+```
 
 这样也是等价的。
 
@@ -30,7 +32,7 @@ int main(int num_args, char** arg_strings)
 
 下面是一些测试代码，可以演示这个功能：
 
-'''c
+```c
 #include <iostream>
 
 int main(int argc, char** argv) {
@@ -39,13 +41,13 @@ int main(int argc, char** argv) {
         std::cout << argv[i] << std::endl;
     }
 }
-'''
+```
 
 ## 结论解析
 
 编译之后可以运行查看结果：
 
-'''
+```
 ./test a1 b2 c3
 	
 Have 4 arguments:
@@ -53,10 +55,10 @@ Have 4 arguments:
 a1
 b2
 c3
-'''
+```
 
 可以看到
 
 * argc是4，是指字符串组数
-* argv[0]是特殊的文件执行的命令
+* argv[0]是特殊的,是文件执行的命令
 * argv[1]-argv[3]是跟的参数
