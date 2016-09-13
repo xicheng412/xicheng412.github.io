@@ -100,7 +100,7 @@ mkdir ~/.ssh
 
 在git用户下操作
 
-```
+```bash
 su git
 cd /home/git
 wget https://dl.gogs.io/gogs_v0.9.97_raspi2.zip
@@ -110,13 +110,13 @@ wget https://dl.gogs.io/gogs_v0.9.97_raspi2.zip
 
 然后得到下载文件之后解压
 
-```
+```bash
 unzip gogs*.zip
 ```
 
 得到文件夹gogs，然后进入gogs并执行文件gogs。
 
-```
+```bash
 cd gogs
 ./gogs web
 ```
@@ -154,7 +154,7 @@ include /etc/nginx/sites-enabled/*;
 
 然后在 nginx 的加载位置里面增加自己的配置文件
 
-```
+```bash
 cd /etc/nginx/conf.d/
 nano default.conf
 ```
@@ -182,12 +182,75 @@ server{
 
 这个是配置的重中之重，只有supervisor设置稳定了，才能够比较好的访问。最关键的是，我一开始想自己写脚本让gogs运行遇到了一个没有见过的问题，我通过 'sudo git -c /home/git/gogs/gogs web'，发现一个很奇怪的问题，就是这样是不能够进入到这个目录执行的，如果执行的时候工作目录不是 `/home/git/gogs/` 就会使得数据库不能存储。所以用supiervisor也能够解决这个问题当然就是最为方便的，而且能够保持程序在一直运行。
 
-切换到pi的用户，将配置文件输入supervisor.conf
+切换到pi的用户，将配置文件输入supervisor.conf，然后再建立我们需要的目录，过一会用来保存supervisor需要的单个的程序配置（我们现在就只有gogs,以后可能会还有，到时候就直接添加配置的文件就好）。
 
-'''
-echo_supervisord_conf > /etc/supervisord.conf
-'''
+```bash
+su pi
+sudo echo_supervisord_conf > /etc/supervisord.conf
+sudo mkdir -p /etc/supervisor/conf.d/
+```
 
 如果遇到权限问题，就先在home生成一个，然后copy到etc目录。
 
-然后找到配置文件，在gogs目录的一个叫scrpit的目录中。
+然后来设置supervisor的配置，这个配置文件就是刚才生成的 `/etc/supervisord.conf`，找到里面的`;[include]`的地方，去掉分号注释，修改这个配置为
+
+```
+[include]
+files = /etc/supervisor/conf.d/*.conf
+```
+
+这样以后配置supervisor的时候就只需要写一个配置program的文件到 `/etc/supervisor/conf.d/` 中，然后名字设置为 `程序名.conf` 就可以自动保持运行了。
+
+然后找到supervisor的gogs配置文件，在gogs目录的一个叫scrpit的目录中。
+
+拷贝文件到 `/etc/supervisor/conf.d/` 中去，并且修改名字。
+
+```bash
+cp /home/git/gogs/scripts/supervisor/gogs /etc/supervisor/conf.d/gogs.conf
+```
+
+修改conf.d中的配置文件gogs.conf为以下设置。可以按照自己的实际情况修改，主要是目录要注意，目录设置决定了sqlite数据库的位置。
+
+
+```
+[program:gogs]
+directory=/home/git/gogs/
+command=/home/git/gogs/gogs web
+autostart=true
+autorestart=true
+startsecs=10
+stdout_logfile=/var/log/gogs/stdout.log
+stdout_logfile_maxbytes=1MB
+stdout_logfile_backups=10
+stdout_capture_maxbytes=1MB
+stderr_logfile=/var/log/gogs/stderr.log
+stderr_logfile_maxbytes=1MB
+stderr_logfile_backups=10
+stderr_capture_maxbytes=1MB
+user = git
+environment = HOME="/home/git", USER="git"
+```
+
+配置好以后运行命令，打开supervisor的守护进程，通过supervisorctl控制。
+
+
+```
+supervisord
+supervisorctl start gogs
+```
+
+然后等程序执行了之后，只要状态不是error,就可以通过访问树莓派的ip地址来访问网页控制界面了。
+
+后面的申请账号之类的就和github差不多了。但是要注意第一个账号是管理员账号，如果前面没有设置的话，新申请的第一个账号是有管理员权限的。
+
+## 后记
+
+这个主要是想给实验室的小伙伴们备份代码用，但是现在的方式是备份到树莓派上，不是特别安全TF卡不可靠。等后面有时间，应该再做到经常进行异地备份，再备份到云服务器上之类的才好。
+
+主要参考了官方网站的资料，然后还有一些网络上搜索到的东西。
+
+网络上还能够搜索到有一些做备份的资料参考，以后再补全
+
+* [用Gogs搭建自己的Git服务器](https://libhappy.com/2016/01/build-gogs-service/index.html)
+* [搭建gogs代码托管服务器](http://blog.just4fun.site/gogs-install.html)
+
