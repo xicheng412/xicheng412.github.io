@@ -54,7 +54,7 @@ Gogs 的目标是打造一个最简单、最快速和最轻松的方式搭建自
 * pip --用于安装supervisor，包管理软件
 
 ```bash
-sudo apt install wget nginx git sqlite
+sudo apt install wget unzip nginx git sqlite
 ```
 
 完成下载工具的安装和nginx的安装，还有就是Git和sqlite是gogs依赖的必须要的工具。
@@ -98,12 +98,89 @@ mkdir ~/.ssh
 我下载的时候是在官网下载的 Raspberry Pi v2，这个版本是可以用sqlite的。
 我一开始选的是ARM版本，发现ARM版本不能选择sqlite，所以要注意，最好不用ARM版本。
 
-用 `wget + 下载地址` 下载安装程序到 `/home/git/gogs`
+在git用户下操作
+
+```
+su git
+cd /home/git
+wget https://dl.gogs.io/gogs_v0.9.97_raspi2.zip
+```
+
+用 `wget + 下载地址` 下载安装程序到 `/home/git`
+
+然后得到下载文件之后解压
+
+```
+unzip gogs*.zip
+```
+
+得到文件夹gogs，然后进入gogs并执行文件gogs。
+
+```
+cd gogs
+./gogs web
+```
+
+然后可以看到一堆信息，可以看到运行在3000端口上。如果3000端口被占用，需要更换端口的话可以使用 `./gogs web -p 3001` 来指定一个不一样的端口，如3001之类的。
+
+### 对网页端配置
+
+在网页浏览器里面打开ip地址和端口如
+
+* 本机的话就打开 127.0.0.1:3000
+* 如果是其他地方访问的话就打开树莓派对应地址，如 192.168.0.123:3000
+
+选择数据库是 sqlite
+
+其他的按照自己的理解选择就可以了，基本上其他设置就默认就好
+
 ### 配置nginx代理
 
-nginx的配置是比较简单快速加暴力的，
+nginx的配置是比较简单快速的，安装好nginx以后，默认的nginx配置文件为 `/etc/nginx/nginx.conf`
+
+用 vim 或者 nano 之类的工具打开，并找到
+
+```
+##
+# Virtual Host Configs
+##
+
+include /etc/nginx/conf.d/*.conf;
+include /etc/nginx/sites-enabled/*;
+```
+
+这样的地方，这个是配置server对应的文档将 `include /etc/nginx/sites-enabled/*;` 修改成 `include /etc/nginx/sites-enabled/*.conf;` ，或者前面加 `#` 注释掉。
+因为这个地方会加载默认的nginx的80端口配置，会覆盖掉前面的一些配置。我之前就是在这个地方卡了好一会，最后发现是设置被覆盖的问题。
+
+然后在 nginx 的加载位置里面增加自己的配置文件
+
+```
+cd /etc/nginx/conf.d/
+nano default.conf
+```
+
+打开了文件以后，粘贴以下的配置到这个文件
+
+
+```
+#gogs port 3000
+server{
+        server_name 127.0.0.1;
+        listen 80;
+
+        location /{
+                proxy_pass http://127.0.0.1:3000/;
+        }
+}
+```
+
+这个配置文件就是设置代理访问，这样每次只需要输入ip就可以访问了，不需要输入端口号。它将代理的3000端口，转发向80端口。
+
+如果是在服务器上配置，nginx也会非常方便，也可以反向代理固定的ip地址或是域名。
 
 ### 配置supervisor
+
+这个是配置的重中之重，只有supervisor设置稳定了，才能够比较好的访问。最关键的是，我一开始想自己写脚本让gogs运行遇到了一个没有见过的问题，我通过 'sudo git -c /home/git/gogs/gogs web'，发现一个很奇怪的问题，就是这样是不能够进入到这个目录执行的，如果执行的时候工作目录不是 `/home/git/gogs/` 就会使得数据库不能存储。所以用supiervisor也能够解决这个问题当然就是最为方便的，而且能够保持程序在一直运行。
 
 切换到pi的用户，将配置文件输入supervisor.conf
 
@@ -113,3 +190,4 @@ echo_supervisord_conf > /etc/supervisord.conf
 
 如果遇到权限问题，就先在home生成一个，然后copy到etc目录。
 
+然后找到配置文件，在gogs目录的一个叫scrpit的目录中。
