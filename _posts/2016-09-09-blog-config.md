@@ -9,7 +9,7 @@ tags: Github blog markdown
 * content
 {:toc}
 
-大概记录以下我搭建Blog的过程
+大概记录一下我搭建Blog的过程
 
 
 
