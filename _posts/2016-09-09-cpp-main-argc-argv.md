@@ -2,8 +2,8 @@
 layout: post
 title:  "C++ main(int argc,char* argv[]) 详解"
 date:   2016-09-09 00:00:00
-categories: CPP
-tags: CPP
+categories: Cpp
+tags: Cpp
 ---
 
 * content
