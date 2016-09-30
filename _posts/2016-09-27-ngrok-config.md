@@ -300,3 +300,7 @@ ngrok.exe -log=ngrok_log.txt -subdomain=abc -config="ngrok.cfg" 80
 执行命令 `./ngrok -subdomain=rbp -config="ngrok.cfg" 80`
 
 这样就可以通过 `abc.www.aiesst.com:6060` 访问树莓派上的80端口对应的服务。（树莓派可以直接安装一个nginx, `apt-get install nginx` 然后默认80端口就可以显示nginx默认的页面）
+
+## 待补充的内容
+
+后面准备补充一下使用supervisor来保持服务一直运行，在服务端和客户端都需要配置一下，维持服务稳定。
