@@ -38,9 +38,9 @@ Gogs 的目标是打造一个最简单、最快速和最轻松的方式搭建自
 
 树莓派（英语：Raspberry Pi），是一款基于Linux的单板机电脑。它由英国的树莓派基金会所开发，目的是以低价硬件及自由软件促进学校的基本计算机科学教育。
 
-树莓派3代B型于2016年2月29日正式发布。3代控制器针对2代控制器增加了WiFi和蓝牙功能，而且电源也增加到2.5A /5V，但是外观未做更改，与其上一代相比，速度更快，功能更强大。凭借其内置的无线和蓝牙连接，它将成为支持物联网的理想解决方案。Raspberry Pi 3搭载了64位四核1.2GHz处理器，1GB LPDDR2内存，兼容现已发布的应用程序。网络方面，Raspberry Pi 3还直接搭载了激动人心的802.11n Wi-Fi和蓝牙4.1支持。更重要的是价格合理。
+> 树莓派3代B型于2016年2月29日正式发布。3代控制器针对2代控制器增加了WiFi和蓝牙功能，而且电源也增加到2.5A /5V，但是外观未做更改，与其上一代相比，速度更快，功能更强大。凭借其内置的无线和蓝牙连接，它将成为支持物联网的理想解决方案。Raspberry Pi 3搭载了64位四核1.2GHz处理器，1GB LPDDR2内存，兼容现已发布的应用程序。网络方面，Raspberry Pi 3还直接搭载了激动人心的802.11n Wi-Fi和蓝牙4.1支持。更重要的是价格合理。
 
-本次升级除了 Wi-Fi 和蓝牙外，Raspberry Pi 3 最重要的更新莫过于性能了。Raspberry Pi 2 B 拥有一块四核高通 900MHz 处理器、1GB RAM 和 VideoCore IV GPU。新版本则拥有博通 BCM2837 1.2GHz 四核处理器、1GB RAM 和 VideoCore IV GPU。另外，GPU 的规格也从 250MHz 上升至 400MHz，RAM 从 450MHz 升至 900MHz。其进步可以说非常明显。从跑分结果来看，Raspberry Pi 3 相比上一代高出了 700 多分，这应该说是目前比较热门的迷你电脑了。 
+> 本次升级除了 Wi-Fi 和蓝牙外，Raspberry Pi 3 最重要的更新莫过于性能了。Raspberry Pi 2 B 拥有一块四核高通 900MHz 处理器、1GB RAM 和 VideoCore IV GPU。新版本则拥有博通 BCM2837 1.2GHz 四核处理器、1GB RAM 和 VideoCore IV GPU。另外，GPU 的规格也从 250MHz 上升至 400MHz，RAM 从 450MHz 升至 900MHz。其进步可以说非常明显。从跑分结果来看，Raspberry Pi 3 相比上一代高出了 700 多分，这应该说是目前比较热门的迷你电脑了。 
 
 [维基百科的介绍](https://zh.wikipedia.org/zh-cn/%E6%A0%91%E8%8E%93%E6%B4%BE)
 
@@ -52,10 +52,12 @@ Gogs 的目标是打造一个最简单、最快速和最轻松的方式搭建自
 
 先安装一些可能会用到的工具，如果有了就跳过。
 
-* wget --用于下载安装程序
-* supervisor  --用于维持gogs运行，但是要依赖python2,所以要安装Python
-* python
-* pip --用于安装supervisor，包管理软件
+工具 | 功能
+--- | ---
+wget | 用于下载安装程序
+supervisor | 用于维持gogs运行，但是要依赖python2,所以要安装Python
+python | pip需要依赖的包
+pip | 用于安装supervisor，包管理软件
 
 ```bash
 sudo apt install wget unzip nginx git sqlite
@@ -255,7 +257,9 @@ supervisorctl start gogs
 
 网络上还能够搜索到有一些做备份的资料参考，以后再补全。
 
-还想到了一个问题，就是要做一个内网穿透，等有时间会专门做一个搭建内网穿透的文章。
+还想到了一个问题，就是要做一个内网穿透，等有时间会专门做一个搭建内网穿透的文章。 **(已经补全)**
+
+## 参考文章
 
 * [用Gogs搭建自己的Git服务器](https://libhappy.com/2016/01/build-gogs-service/index.html)
 * [搭建gogs代码托管服务器](http://blog.just4fun.site/gogs-install.html)
