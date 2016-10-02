@@ -9,7 +9,8 @@ tags: Cpp
 * content
 {:toc}
 
-解决之前不太清楚的细节问题，同时测试一下blog的代码显示功能。所以写了一个关于 main() 的参数问题。
+解决之前不太清楚的细节问题，同时测试一下 blog 的代码显示功能。所以写了一个关于 main() 的参数问题。
+
 
 
 
@@ -20,7 +21,7 @@ argv 和 argc 是命令行传递给 C 和 C++ 中 main() 函数的参数
 * argc 是指代的 **argv 这个 string 字符串长度** 。 这个长度是参数个数 +1 。  （argument count）
 * argv 是一个包含多个字符串的数组，包含执行的文件名和所附带的参数。 (argument vector)
 
-在main()中，也可以写成其他的名字例如
+在 main() 中，也可以写成其他的名字例如
 
 ```c
 int main(int num_args, char** arg_strings) 
@@ -60,6 +61,8 @@ c3
 
 可以看到
 
-* argc是4，是指字符串组数
-* argv[0]是特殊的,是文件执行的命令
-* argv[1]-argv[3]是跟的参数
+变量 | 含义
+--- | ---
+argc | 是指字符串组数，这里是等于4
+argv[0] | 是特殊的,是文件执行的命令
+argv[1]-argv[3] | 是跟的参数
