@@ -17,6 +17,11 @@ tags: android bootloader unlock
 
 网络上描述的问题是，可能是nand的内存读写坏了，这个硬件问题是软件不能解决的。
 
+
+
+
+
+
 ## 过程
 
 ### 下载platform-tools和usb驱动
@@ -90,7 +95,7 @@ fastboot reboot
 擦除分区: fastboot erase boot或fastboot erase system等。
 
 >fastboot erase {partition}
- 
+
 
 烧写指定分区：fastboot flash boot boot.img或fastboot flash system system.img等。
 
